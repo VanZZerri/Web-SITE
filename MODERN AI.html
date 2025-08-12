@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MODERN A.I</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(-45deg, #f5f5f5, #e0e0e0, #f5f5f5, #e0e0e0);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #333;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Intro Animation */
+        .intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+            animation: fadeOut 1s ease-in-out 2s forwards;
+        }
+
+        .intro h1 {
+            font-family: 'Monoton', cursive;
+            font-size: 5rem;
+            color: #000;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: scale(0.5);
+            animation: fadeInScale 1.5s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeInScale {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out 2.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1.title {
+            font-family: 'Monoton', cursive;
+            font-size: 4rem;
+            color: #000;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #000, #333);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1.title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #000, #666, #000);
+            border-radius: 3px;
+        }
+
+        /* Category Buttons */
+        .category-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            font-family: 'Monoton', cursive;
+            font-size: 1.2rem;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            background: #fff;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3), 
+                        0 0 10px rgba(255, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            animation: shadowPulse 2s infinite alternate;
+        }
+
+        @keyframes shadowPulse {
+            0% {
+                box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3), 
+                            0 0 10px rgba(255, 0, 0, 0.2);
+            }
+            100% {
+                box-shadow: 0 5px 20px rgba(255, 0, 0, 0.5), 
+                            0 0 15px rgba(255, 0, 0, 0.4);
+            }
+        }
+
+        .category-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.5), 
+                        0 0 20px rgba(255, 0, 0, 0.4);
+        }
+
+        .category-btn.active {
+            background: #000;
+            color: #fff;
+            animation: none;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Cards Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: cardFadeIn 0.8s ease-out forwards;
+            position: relative;
+            cursor: pointer;
+        }
+
+        @keyframes cardFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 255, 0.2), 0 0 20px rgba(0, 0, 255, 0.1);
+        }
+
+        .card-image {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-image img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #000, #666);
+            transition: width 0.3s ease;
+        }
+
+        .card:hover .card-title::after {
+            width: 50px;
+        }
+
+        /* Typewriter Effect */
+        .typewriter {
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 1.5s steps(30, end);
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        /* Developer Text Animation */
+        .developer-text {
+            font-family: 'Monoton', cursive;
+            animation: textBounce 2s infinite ease-in-out;
+            display: inline-block;
+        }
+
+        @keyframes textBounce {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-10px) scale(1.05);
+            }
+        }
+
+        /* Ripple Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Particles */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1.title {
+                font-size: 3rem;
+            }
+            
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .category-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1.title {
+                font-size: 2.5rem;
+            }
+            
+            .intro h1 {
+                font-size: 3rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-btn {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Intro Animation -->
+    <div class="intro">
+        <h1>MODERN A.I</h1>
+    </div>
+
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <header>
+            <h1 class="title">MODERN A.I</h1>
+            <p>Explore the most advanced artificial intelligence platforms</p>
+        </header>
+
+        <!-- Category Buttons -->
+        <div class="category-buttons">
+            <button class="category-btn active" data-category="all">SEMUA A.I</button>
+            <button class="category-btn" data-category="tentang pelajaran">tentang pelajaran</button>
+            <button class="category-btn" data-category="create coding">create coding</button>
+        </div>
+
+        <!-- AI Cards Grid -->
+        <div class="grid" id="ai-grid">
+            <!-- Learning Category -->
+            <div class="card" data-category="tentang pelajaran" onclick="navigateTo('https://chatgpt.com')">
+                <div class="card-image">
+                    <img src="https://i.postimg.cc/m2d46s8t/7ddfdc707caa84d53bfbb3bbe31342ee.jpg" alt="CHAT GPT">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title typewriter">CHAT GPT</h3>
+                </div>
+            </div>
+
+            <div class="card" data-category="tentang pelajaran" onclick="navigateTo('https://chat.deepseek.com')">
+                <div class="card-image">
+                    <img src="https://i.postimg.cc/dVqZqKy2/2c3b824d016478bc6612214c8bbac29a.jpg" alt="Deepsek">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title typewriter">Deepsek</h3>
+                </div>
+            </div>
+
+            <div class="card" data-category="tentang pelajaran" onclick="navigateTo('https://www.blackbox.ai')">
+                <div class="card-image">
+                    <img src="https://i.postimg.cc/kG4hrHyq/Screenshot-20250812-172257-Samsung-Internet.jpg" alt="BLACK BOX">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title typewriter">BLACK BOX</h3>
+                </div>
+            </div>
+
+            <!-- Creative Category -->
+            <div class="card" data-category="create coding" onclick="navigateTo('https://enzostvs-deepsite.hf.space/projects/new')">
+                <div class="card-image">
+                    <img src="https://i.postimg.cc/qM6j8ybb/Screenshot-20250812-172213-Samsung-Internet.jpg" alt="Deepsite">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title typewriter">Deepsite</h3>
+                </div>
+            </div>
+
+            <div class="card" data-category="create coding" onclick="navigateTo('https://chat.z.ai/')">
+                <div class="card-image">
+                    <img src="https://i.postimg.cc/L6kvC2SL/Screenshot-20250812-172513-Samsung-Internet.jpg" alt="GLM-4.5">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title typewriter">GLM-4.5</h3>
+                </div>
+            </div>
+
+            <div class="card" data-category="create coding" onclick="navigateTo('https://www.kimi.com')">
+                <div class="card-image">
+                    <img src="https://i.postimg.cc/HnzzL9B3/Screenshot-20250812-172717-Google-Play-Store.jpg" alt="Kimi A.i">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title typewriter">Kimi A.i</h3>
+                </div>
+            </div>
+
+            <div class="card" data-category="create coding" onclick="navigateTo('https://www.genspark.ai')">
+                <div class="card-image">
+                    <img src="https://i.postimg.cc/k5Nb9Xjv/Screenshot-20250812-172930-Samsung-Internet.jpg" alt="genspark">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title typewriter">genspark</h3>
+                </div>
+            </div>
+
+            <!-- Developer Card -->
+            <div class="card" data-category="create coding" onclick="navigateTo('#')">
+                <div class="card-image">
+                    <img src="https://i.postimg.cc/x1kg3H6p/Picsart-25-08-12-18-07-24-153.jpg" alt="DEVELOPER danzz">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title developer-text">DEVELOPER danzz</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#000000"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#cccccc",
+                        "opacity": 0.2,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 1
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+
+            // Create ripple effect on card click
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Play click sound
+                    const clickSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3');
+                    clickSound.volume = 0.3;
+                    clickSound.play();
+                    
+                    // Create ripple
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    this.appendChild(ripple);
+                    
+                    // Position ripple
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    
+                    // Remove ripple after animation
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Category filtering
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const aiCards = document.querySelectorAll('.card');
+
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active button
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Get selected category
+                    const category = this.dataset.category;
+                    
+                    // Filter cards
+                    aiCards.forEach(card => {
+                        if (category === 'all' || card.dataset.category === category) {
+                            card.style.display = 'block';
+                            // Add animation for showing
+                            card.style.animation = 'cardFadeIn 0.8s ease-out forwards';
+                        } else {
+                            // Add animation for hiding
+                            card.style.animation = 'fadeOut 0.5s ease-out forwards';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 500);
+                        }
+                    });
+                });
+            });
+
+            // Initialize with all cards visible
+            aiCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1 + 0.5}s`;
+                // Special animation for developer card
+                if (card.querySelector('.developer-text')) {
+                    card.querySelector('.developer-text').style.animationDelay = `${index * 0.1 + 0.5}s`;
+                }
+            });
+        });
+
+        function navigateTo(url) {
+            setTimeout(() => {
+                window.open(url, '_blank');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
